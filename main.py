@@ -33,13 +33,13 @@ def _setup_parser():
     parser.add_argument("--seed", type=int, default=7)
     parser.add_argument("--data_class", type=str, default="KGC")
     parser.add_argument("--chunk", type=str, default="")
-    #parser.add_argument("--gpus", type=str, default="0")
+    parser.add_argument("--gpus", type=str, default="0")
     parser.add_argument("--checkpoint", type=str, default=None)
     parser.add_argument("--task_name", type=str, default='wn18')
     parser.add_argument("--pretrain", type=int, default=0)
     parser.add_argument("--use_swa", type=bool, default=True)#change
-    #parser.add_argument(" --check_val_every_n_epoch", type=int, default=10)
-    #parser.add_argument("--num_workers", type=str, default=32)
+    parser.add_argument(" --check_val_every_n_epoch", type=int, default=10)
+    parser.add_argument("--num_workers", type=str, default=32)
 
     data_group = parser.add_argument_group("Data Args")
     KGC.add_to_argparse(data_group)
