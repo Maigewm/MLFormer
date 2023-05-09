@@ -67,35 +67,13 @@ def main():
     vilt_config = ViltConfig.from_pretrained("dandelin/vilt-b32-mlm")
     model=ViltForMaskedLM.from_pretrained("dandelin/vilt-b32-mlm",config=vilt_config)
 
-    #ipdb.set_trace()
-    #change calculate flops and params
-
-
-    '''
-    from thop import profile
-    from thop import clever_format
-    from transformers import ViltProcessor
-    from PIL import Image
-    import requests
-    url = "http://images.cocodataset.org/val2017/000000039769.jpg"
-    image = Image.open(requests.get(url, stream=True).raw)
-    text = "hello world"
-    processor = ViltProcessor.from_pretrained("dandelin/vilt-b32-mlm")
-    inputs = processor(image, text, return_tensors="pt")
-    #ipdb.set_trace()
-    flops, params = profile(model, inputs)
-    flops, params = clever_format([flops, params], "%.3f")
-    print("flops:",flops, "params:",params)
-    '''
+    
     data=KGC(args, model)
     print('Load data.')
     tokenizer=data.tokenizer
     print('Load model.')
 
-    lit_model=TransformerLitModel(args=args, model=model, tokenizer=tokenizer, data_config=data.get_config())
-    #ModelSummary(lit_model,mode='full')
-    #ipdb.set_trace()
-    #print(ModelSummary(model, mode='full'))
+    lit_model=TransformerLitModel(args=args, model=model, tokenizer=tokenizer, data_config=data.get_config()
     print('Load litmodel.')
     if args.checkpoint:
         lit_model.load_state_dict(torch.load(args.checkpoint, map_location="cpu")["state_dict"])
@@ -117,9 +95,7 @@ def main():
     )
     callbacks = [early_callback, model_checkpoint]
     print('call back')
-    #change:swa
-    #if args.use_swa:
-     #   callbacks.append(pl.callbacks.StochasticWeightAveraging(swa_epoch_start=2))
+    
 
     trainer = pl.Trainer.from_argparse_args(args,
                                             callbacks=callbacks,
@@ -128,20 +104,6 @@ def main():
                                             )
 
     print('trainer')
-
-#find lr
-    # lr_finder = trainer.tuner.lr_find(lit_model, datamodule=data)
-    # fig = lr_finder.plot(suggest=True)
-    # fig.savefig("learning_rate.png",)
-    # fig.show()
-    # print("lr finder",lr_finder.suggestion())
-    # print("lr finder",lr_finder.suggestion())
-
-    #trainer.tune(lit_model, datamodule=data)
-    '''macs, params = get_model_complexity_info(lit_model, (3, 224, 224), as_strings=True,
-                                           print_per_layer_stat=True, verbose=True)
-    print('{:<30}  {:<8}'.format('Computational complexity: ', macs))
-    print('{:<30}  {:<8}'.format('Number of parameters: ', params))'''
 
     trainer.fit(lit_model, datamodule=data)
     path = model_checkpoint.best_model_path
