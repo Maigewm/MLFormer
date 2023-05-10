@@ -7,6 +7,7 @@ Code for the paper "MLFormer: Unleashing Efficiency without Attention for Multim
 # Data
   *FB15k-237:
   To obtain the image data for FB15k-237, you can access the [mmkb](https://github.com/mniepert/mmkb) repository, which offers a list of image URLs associated with the dataset. For more information on entity descriptions, you can refer to the [kg-bert](https://github.com/yao8839836/kg-bert) repository.
+  
   *WN18:
   If you want to obtain entity images in WN18, you can use ImageNet as a source. The detailed steps for doing so can be found in the [RSME](https://github.com/wangmengsd/RSME) repository. The process outlined in this repository provides a guide for associating ImageNet image URLs with entities in the WN18 dataset.
   
