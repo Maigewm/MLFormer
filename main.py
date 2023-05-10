@@ -5,17 +5,17 @@ import importlib
 import pytorch_lightning as pl
 import numpy as np
 from lit_model.lit_model import TransformerLitModel
-from model.modeling_vilt import ViltForMaskedLM, ViltConfig
+from model.modeling_attention_name import ViltForMaskedLM, ViltConfig
+#attention_name:ea/afno
 from ptflops import get_model_complexity_info
 from data.data_module import KGC
 from torchstat import stat
 import ipdb
 from pytorch_lightning.core.memory import ModelSummary
-#from pytorch_lightning.callbacks import StochasticWeightAveraging #change
+#from pytorch_lightning.callbacks import StochasticWeightAveraging 
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
-#Attention! kgc may change
-#remember to import class from other module
+
 
 
 def _setup_parser():
